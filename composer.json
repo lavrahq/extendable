@@ -1,0 +1,39 @@
+{
+  "name": "lavrahq/extendable",
+  "description": "An extension framework for Laravel applications.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Scott Plunkett",
+      "email": "scott@aeoss.io"
+    }
+  ],
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "doctrine/dbal": "^2.0"
+  },
+  "require-dev": {
+    "illuminate/filesystem": "^7.9",
+    "illuminate/support": "^7.9",
+    "illuminate/container": "^7.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Lavra\\Extendable\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Lavra\\Extendable\\ExtendableServiceProvider"
+      ],
+      "aliases": {
+        "Extend": "Lavra\\Extendable\\Facades\\Extend"
+      }
+    }
+  }
+}
