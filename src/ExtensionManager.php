@@ -6,6 +6,7 @@ namespace Lavra\Extendable;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -70,6 +71,8 @@ class ExtensionManager
     {
         $this->container = $container;
         $this->filesystem = $filesystem;
+
+
         $this->migrator = $migrator;
     }
 
@@ -83,12 +86,10 @@ class ExtensionManager
         $extensions = new Collection();
 
         try {
-            DB::getDefaultConnection()->getPdo();
-        } catch (Exception $e) {
-            return;
-        }
-
-        if (! Schema::hasTable('extensions')) {
+            if (! Schema::hasTable('extensions')) {
+                return;
+            }
+        } catch (QueryException $e) {
             return;
         }
 
