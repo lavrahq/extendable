@@ -20,6 +20,8 @@ class CreateExtensionsTable extends Migration
 
             $table->boolean('is_enabled')
                 ->default(false);
+            $table->boolean('is_active_theme')
+                ->default(false);
 
             $table->timestamps();
         });

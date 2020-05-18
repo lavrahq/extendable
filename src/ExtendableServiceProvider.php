@@ -13,10 +13,17 @@ use Lavra\Extendable\Database\Migrations\MigrationRepository;
 use Lavra\Extendable\ExtensionManager;
 use Lavra\Extendable\Facades\Extend;
 use Lavra\Extendable\Storage\DatabaseExtensionStorage;
+use Lavra\Extendable\View\ExtensionViewFinder;
 
 class ExtendableServiceProvider extends ServiceProvider
 {
 
+    /**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = false;
 
     /**
      * Boot package services.
@@ -43,6 +50,8 @@ class ExtendableServiceProvider extends ServiceProvider
             $container->make(ExtensionManagerContract::class)
                 ->extend();
         });
+
+        $this->registerViewServices();
     }
 
     /**
@@ -88,6 +97,25 @@ class ExtendableServiceProvider extends ServiceProvider
         $this->publishes([
             $configPath => config_path('extensions.php'),
         ], 'config');
+    }
+
+    protected function registerViewServices()
+    {
+        $this->app->singleton('view.finder', function($app) {
+            return new ExtensionViewFinder($app['files'], $app['config']['view.paths'], null);
+        });
+
+        foreach (Extend::providesTheme() as $extension) {
+            $parts = explode("/", $extension->getId());
+            $namespace = end($parts);
+
+            if (! $namespace) {
+                continue;
+            }
+
+            app('view')
+                ->addNamespace($namespace, $extension->themePath('views'));
+        }
     }
 
 }

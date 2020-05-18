@@ -8,6 +8,7 @@ use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Lavra\Extendable\Concerns\ThemesApplication;
 use Lavra\Extendable\Contracts\Extenders\ExtenderLifecycleContract;
 use Lavra\Extendable\Database\Migrations\Migrator;
 use Lavra\Extendable\Contracts\Storage\ExtensionStorageContract;
@@ -16,6 +17,8 @@ use League\Flysystem\FilesystemInterface;
 
 class Extension
 {
+
+    use ThemesApplication;
 
     /**
      * Unique identifier for the Extension.
@@ -165,7 +168,7 @@ class Extension
      */
     public function path($within = null): string
     {
-        $base = base_path('vendor/' . $this->attr('name'));
+        $base = $this->path;
 
         if (is_null($within)) {
             return $base;
@@ -210,6 +213,18 @@ class Extension
     {
         return $this->storage
             ->isEnabled($this);
+    }
+
+    /**
+     * Returns true or false dependong on whether the Extension
+     * is set as the active theme or not.
+     *
+     * @return boolean
+     */
+    public function isActiveTheme(): bool
+    {
+        return $this->storage
+            ->isActiveTheme($this);
     }
 
     /**

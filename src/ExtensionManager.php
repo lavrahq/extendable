@@ -9,6 +9,10 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Lavra\Extendable\Concerns\ManagesThemes;
+use Lavra\Extendable\Contracts\ExtensionManagerContract;
 use Lavra\Extendable\Contracts\Storage\ExtensionStorageContract;
 use Lavra\Extendable\Database\Migrations\Migrator;
 use Lavra\Extendable\Events\Extension\Disabled;
@@ -21,6 +25,8 @@ use League\Flysystem\Exception;
 
 class ExtensionManager
 {
+
+    use ManagesThemes;
 
     /**
      * The Application Container.
@@ -73,9 +79,13 @@ class ExtensionManager
      * @throws FileNotFoundException
      * @throws BindingResolutionException
      */
-    public function fetchExtensions(): Collection
+    public function fetchExtensions()
     {
         $extensions = new Collection();
+
+        if (! Schema::hasTable('extensions')) {
+            return;
+        }
 
         if (is_null($this->extensions) && $this->filesystem->exists($this->installedJsonPath())) {
             $installed = json_decode($this->filesystem->get($this->installedJsonPath()), true);
@@ -96,8 +106,6 @@ class ExtensionManager
         }
 
         $this->extensions = $extensions;
-
-        return $extensions;
     }
 
     /**
@@ -126,6 +134,10 @@ class ExtensionManager
      */
     public function all(): Collection
     {
+        if (is_null($this->extensions)) {
+            return new Collection;
+        }
+
         return $this->extensions;
 
     }
@@ -150,6 +162,21 @@ class ExtensionManager
             ->filter(function(Extension $e) {
                 return !$e->isEnabled();
             });
+    }
+
+    /**
+     * Returns the Extension which is acting as the active
+     * theme or null if there is not an active theme set.
+     *
+     * @return Extension|null
+     */
+    public function activeTheme()
+    {
+        return $this->enabled()
+            ->filter(function(Extension $e) {
+                return $e->isActiveTheme();
+            })
+            ->first();
     }
 
     /**
@@ -267,6 +294,10 @@ class ExtensionManager
         $this->enabled()
             ->each(function (Extension $extension) use ($container) {
                 $extension->extend($container);
+
+                if ($extension->isActiveTheme()) {
+                    $extension->registerTheme($container);
+                }
             });
     }
 
