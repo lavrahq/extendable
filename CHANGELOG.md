@@ -9,7 +9,7 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
-## [0.1.1]
+## [0.1.1](https://github.com/lavrahq/extendable/releases/tag/v0.1.1)
 
 ### Fixed
 
