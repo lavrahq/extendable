@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-You can find and compare releases at the [GitHub release page](https://github.com/responseams/extend/releases).
+You can find and compare releases at the [GitHub release page](https://github.com/lavrahq/extendable/releases).
 
 ## Unreleased
+
+-   Resolves additional issues with trying to connect to database before database is configured. [#3](https://github.com/lavrahq/extendable/pull/3)
 
 ## [0.1.1](https://github.com/lavrahq/extendable/releases/tag/v0.1.1)
 
