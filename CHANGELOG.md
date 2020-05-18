@@ -9,6 +9,10 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+## [0.1.2](https://github.com/lavrahq/extendable/releases/tag/v0.1.2)
+
+### Fixed
+
 -   Resolves additional issues with trying to connect to database before database is configured. [#3](https://github.com/lavrahq/extendable/pull/3)
 
 ## [0.1.1](https://github.com/lavrahq/extendable/releases/tag/v0.1.1)
