@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Lavra\Extendable\Concerns\ManagesThemes;
-use Lavra\Extendable\Contracts\ExtensionManagerContract;
 use Lavra\Extendable\Contracts\Storage\ExtensionStorageContract;
 use Lavra\Extendable\Database\Migrations\Migrator;
 use Lavra\Extendable\Events\Extension\Disabled;
@@ -82,6 +81,12 @@ class ExtensionManager
     public function fetchExtensions()
     {
         $extensions = new Collection();
+
+        try {
+            DB::getDefaultConnection()->getPdo();
+        } catch (Exception $e) {
+            return;
+        }
 
         if (! Schema::hasTable('extensions')) {
             return;

@@ -9,6 +9,10 @@ You can find and compare releases at the [GitHub release page](https://github.co
 
 ## Unreleased
 
+### Fixed
+
+-   Resolves issue with trying to connect to database before database is configured.
+
 ## [0.1.0](https://github.com/lavrahq/extendable/releases/tag/v0.1.0)
 
 The first official release of the `extendable` package, providing full support for extending
