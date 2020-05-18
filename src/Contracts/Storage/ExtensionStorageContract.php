@@ -72,4 +72,12 @@ interface ExtensionStorageContract
      */
     public function isEnabled(Extension $extension): bool;
 
+    /**
+     * Returns whether the Extension is the active theme or not.
+     *
+     * @param Extension $extension
+     * @return bool
+     */
+    public function isActiveTheme(Extension $extension): bool;
+
 }

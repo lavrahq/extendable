@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static fetchExtensions
  * @method static all
- * @method static enabled
+ * @method static enabled \Illuminate\Support\Collection
  * @method static disabled
  * @method static find
  * @method static enable

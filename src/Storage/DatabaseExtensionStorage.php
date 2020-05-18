@@ -117,6 +117,12 @@ class DatabaseExtensionStorage implements ExtensionStorageContract
             ]);
     }
 
+    /**
+     * Returns true if the Extension is enabled.
+     *
+     * @param Extension $extension
+     * @return boolean
+     */
     public function isEnabled(Extension $extension): bool
     {
         $e = $this->find($extension);
@@ -126,6 +132,25 @@ class DatabaseExtensionStorage implements ExtensionStorageContract
         }
 
         return $e->is_enabled;
+    }
+
+    /**
+     * Returns true if the Extension is enabled and also the
+     * active theme.
+     *
+     * @param Extension $extension
+     * @return boolean
+     */
+    public function isActiveTheme(Extension $extension): bool
+    {
+        $e = $this->find($extension);
+
+        if (is_null($e)) {
+            return false;
+        }
+
+        return $e->is_enabled &&
+            $e->is_active_theme;
     }
 
 }
