@@ -3,7 +3,7 @@
 
 namespace Lavra\Extendable\Database\Migrations;
 
-
+use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Builder;
@@ -53,8 +53,12 @@ class Migrator
 
         $this->builder = $connection->getSchemaBuilder();
 
-        // workaround for https://github.com/laravel/framework/issues/1186
-        $connection->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        try {
+            // workaround for https://github.com/laravel/framework/issues/1186
+            $connection->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+        } catch (PDOException $e) {
+            return;
+        }
     }
 
     /**

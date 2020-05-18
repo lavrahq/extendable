@@ -3,7 +3,8 @@
 
 namespace Lavra\Extendable\Storage;
 
-
+use Exception;
+use finfo;
 use Illuminate\Database\ConnectionInterface;
 use Lavra\Extendable\Contracts\Storage\ExtensionStorageContract;
 use Lavra\Extendable\Extension;

@@ -19,13 +19,6 @@ class ExtendableServiceProvider extends ServiceProvider
 {
 
     /**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
-
-    /**
      * Boot package services.
      */
     public function boot()
